@@ -10,11 +10,11 @@ def load_operations():
         return convert_js
 
 
-def five_last(list_opetions):
+def five_last(last_operation):
     """5 последних удачных операций"""
-    counter = 0
     last_list = []
-    for i in list_opetions:
+    counter = 0
+    for i in last_operation:
         if i['state'] == "EXECUTED":
             counter += 1
             last_list.append(i)
@@ -24,11 +24,11 @@ def five_last(list_opetions):
 
 
 def data_convert(i):
-        """конвертация даты в нужный формат"""
-        data_list = i['date']
-        dt = datetime.datetime.fromisoformat(data_list)
-        format_date = dt.date().strftime('%d.%m.%Y'), i['description']
-        return f'{" ".join(format_date)}'
+    """конвертация даты в нужный формат"""
+    data_list = i['date']
+    dt = datetime.datetime.fromisoformat(data_list)
+    format_date = dt.date().strftime('%d.%m.%Y'), i['description']
+    return f'{" ".join(format_date)}'
 
 
 def modify_card_to(i):
@@ -42,5 +42,8 @@ def modify_card_from(i):
     """конвертация карты отправителя в нужный вид """
     card_number = i['from'].split()[-1]
     name_card = i['from'].split()[0]
-    return f'{name_card} {card_number[:4]} {card_number[4:6]}** **** {card_number[-4:]}'
-
+    if name_card == 'Счет':
+        card_numbers = i['from'][-4:].rjust(len(i['from'][-6:]), "*")
+        return f'{name_card} {card_numbers}'
+    else:
+        return f'{name_card} {card_number[:4]} {card_number[4:6]}** **** {card_number[-4:]}'

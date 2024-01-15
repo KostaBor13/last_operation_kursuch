@@ -3,16 +3,17 @@ from functions import five_last, data_convert, modify_card_to, modify_card_from,
 # переменная для функции чтения json
 all_operations = load_operations()
 
-# создание списка из json для работы
-list_opetions = []
+# проверка на пустой список
+last_operation = []
 for i in all_operations:
-    list_opetions.append(i)
-
-# переменная для функции 5 последних операций
-last_list = five_last(list_opetions)
+    if i != {}:
+        last_operation.append(i)
 
 # сортировка операций по дате
-last_list.sort(key=lambda x: x.get('date'), reverse=True)
+last_operation.sort(key=lambda x: x.get('date'), reverse=True)
+
+# переменная для функции 5 последних операций
+last_list = five_last(last_operation)
 
 # Вывод итоговой информации
 for i in last_list:
